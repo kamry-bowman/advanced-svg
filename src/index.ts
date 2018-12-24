@@ -20,6 +20,7 @@ let windowLight = '#FFCDAA';
 let windowDark = '#280b0b';
 let daySkyColor = '#7689A9';
 let nightSkyColor = '#051838';
+let slider = document.querySelector('.slider');
 let meter = document.querySelector('.meter');
 let svg = document.querySelector('svg');
 let tl = new TimelineLite({
@@ -32,10 +33,15 @@ const duration = 4;
 
 tl.to(svg, 0, { visibility: 'visible' });
 tl.to(meter, duration, { width: '100%', ease: Power0.easeNone }, 0);
-tl.to(moon, (1 / 7) * duration, {
-  y: -45,
-  ease: Elastic.easeIn.config(1.75, 0.75)
-}, 0);
+tl.to(
+  moon,
+  (1 / 7) * duration,
+  {
+    y: -45,
+    ease: Elastic.easeIn.config(1.75, 0.75)
+  },
+  0
+);
 tl.to(
   moon,
   (1 / 7) * duration,
@@ -88,8 +94,29 @@ slowerButton.addEventListener('click', () => {
   tl.timeScale(speed);
 });
 
-// const dragger = document.querySelector('dragger');
-// dragger.addEventListener('mousedown', function drag(event) {
-//   window
+// slider logic
+
+const dragger = document.querySelector('dragger');
+const scale = slider.clientWidth;
+let dragging = false;
+
+// function detectMovement(event: MouseEvent) {
+//   const x = event.movementX;
+//   let current = meter.clientWidth;
+//   let newWidth = current + x;
+//   tl.progress(newWidth / scale);
 // }
-// })
+
+// function stopDrag(event: MouseEvent) {
+//   dragging = false;
+//   window.removeEventListener('mousemove', detectMovement);
+//   window.removeEventListener('mouseup', stopDrag);
+// }
+
+// dragger.addEventListener('mousedown', function drag(event) {
+//   if (!dragging) {
+//     window.addEventListener('mousemove', detectMovement);
+//     window.addEventListener('mouseup', stopDrag);
+//     dragging = true;
+//   }
+// });
