@@ -73,7 +73,7 @@ tl.to(
 tl.to(
   smoke,
   (2 / 7) * duration,
-  { y: -60, rotate: 360, repeat: 2, opacity: 1 },
+  { y: -60, rotation: 30, transformOrigin: '50% 50%', repeat: 2, opacity: 1 },
   'dawn'
 );
 
