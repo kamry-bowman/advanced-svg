@@ -73,7 +73,7 @@ tl.to(
 tl.to(
   smoke,
   (2 / 7) * duration,
-  { y: -60, rotate: 360, repeat: 3, opacity: 1 },
+  { y: -60, rotate: 360, repeat: 2, opacity: 1 },
   'dawn'
 );
 
@@ -96,27 +96,40 @@ slowerButton.addEventListener('click', () => {
 
 // slider logic
 
-const dragger = document.querySelector('dragger');
+const dragger = document.querySelector('.dragger');
 const scale = slider.clientWidth;
 let dragging = false;
 
-// function detectMovement(event: MouseEvent) {
-//   const x = event.movementX;
-//   let current = meter.clientWidth;
-//   let newWidth = current + x;
-//   tl.progress(newWidth / scale);
-// }
+function detectMovement(event: MouseEvent) {
+  console.log(event.movementX);
+  // const x = event.movementX / 100;
+  let current = meter.clientWidth;
+  console.log(current);
+  // let newWidth = current + x;
+  console.log(current / scale);
+  tl.progress(current / scale).pause();
+}
 
-// function stopDrag(event: MouseEvent) {
-//   dragging = false;
-//   window.removeEventListener('mousemove', detectMovement);
-//   window.removeEventListener('mouseup', stopDrag);
-// }
+function stopDrag(event: MouseEvent) {
+  console.log('stop drag');
+  dragging = false;
+  tl.play();
+  document.removeEventListener('mouseup', stopDrag);
+  document.removeEventListener('mousemove', detectMovement);
+}
 
 // dragger.addEventListener('mousedown', function drag(event) {
 //   if (!dragging) {
-//     window.addEventListener('mousemove', detectMovement);
-//     window.addEventListener('mouseup', stopDrag);
+//     document.addEventListener('mousemove', detectMovement);
+//     document.addEventListener('mouseup', stopDrag);
+//     tl.pause();
 //     dragging = true;
 //   }
 // });
+
+slider.addEventListener('click', (event: MouseEvent) => {
+  console.log('click');
+  const target = event.offsetX / scale;
+  console.log(target);
+  tl.progress(target);
+});
