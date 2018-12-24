@@ -102,12 +102,11 @@ let dragging = false;
 
 function detectMovement(event: MouseEvent) {
   console.log(event.movementX);
-  // const x = event.movementX / 100;
+  const x = event.movementX;
   let current = meter.clientWidth;
   console.log(current);
-  // let newWidth = current + x;
-  console.log(current / scale);
-  tl.progress(current / scale).pause();
+  let newWidth = current + x;
+  tl.progress(newWidth / scale).pause();
 }
 
 function stopDrag(event: MouseEvent) {
@@ -118,14 +117,15 @@ function stopDrag(event: MouseEvent) {
   document.removeEventListener('mousemove', detectMovement);
 }
 
-// dragger.addEventListener('mousedown', function drag(event) {
-//   if (!dragging) {
-//     document.addEventListener('mousemove', detectMovement);
-//     document.addEventListener('mouseup', stopDrag);
-//     tl.pause();
-//     dragging = true;
-//   }
-// });
+dragger.addEventListener('mousedown', function drag(event) {
+  if (!dragging) {
+    document.addEventListener('mousemove', detectMovement);
+    document.addEventListener('mouseup', stopDrag);
+    tl.pause();
+    dragging = true;
+    event.stopPropagation();
+  }
+});
 
 slider.addEventListener('click', (event: MouseEvent) => {
   console.log('click');
