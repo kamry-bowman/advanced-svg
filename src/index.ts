@@ -9,27 +9,27 @@ import {
   Elastic,
   BezierPlugin
 } from 'gsap/all';
-const plugins = [CSSPlugin, AttrPlugin, BezierPlugin];
+const plugins: object[] = [CSSPlugin, AttrPlugin, BezierPlugin];
 
-let sun = document.getElementById('sun');
-let sky = document.getElementById('sky');
-let smoke = document.getElementById('smoke');
-let moon = document.getElementById('moon');
-let cabinWindow = document.getElementById('window');
-let windowLight = '#FFCDAA';
-let windowDark = '#280b0b';
-let daySkyColor = '#7689A9';
-let nightSkyColor = '#051838';
-let slider = document.querySelector('.slider');
-let meter = document.querySelector('.meter');
-let svg = document.querySelector('svg');
-let tl = new TimelineLite({
+let sun: Element = document.getElementById('sun');
+let sky: Element = document.getElementById('sky');
+let smoke: Element = document.getElementById('smoke');
+let moon: Element = document.getElementById('moon');
+let cabinWindow: Element = document.getElementById('window');
+let windowLight: string = '#FFCDAA';
+let windowDark: string = '#280b0b';
+let daySkyColor: string = '#7689A9';
+let nightSkyColor: string = '#051838';
+let slider: Element = document.querySelector('.slider');
+let meter: Element = document.querySelector('.meter');
+let svg: Element = document.querySelector('svg');
+let tl: TimelineLite = new TimelineLite({
   onComplete: function() {
     this.restart();
   }
 });
 
-const duration = 4;
+const duration: number = 4;
 
 tl.to(svg, 0, { visibility: 'visible' });
 tl.to(meter, duration, { width: '100%', ease: Power0.easeNone }, 0);
@@ -80,10 +80,10 @@ tl.to(
 tl.to(sky, (3 / 7) * duration, { fill: daySkyColor }, 0);
 tl.to(sky, (1 / 7) * duration, { fill: nightSkyColor }, (4 / 7) * duration);
 
-const fasterButton = document.getElementById('faster');
-const slowerButton = document.getElementById('slower');
+const fasterButton: Element = document.getElementById('faster');
+const slowerButton: Element = document.getElementById('slower');
 
-let speed = 1;
+let speed: number = 1;
 fasterButton.addEventListener('click', () => {
   speed = speed * 2;
   tl.timeScale(speed);
@@ -95,17 +95,17 @@ slowerButton.addEventListener('click', () => {
 });
 
 // slider logic
-const container = document.querySelector('.container');
-const dragger = document.querySelector('.dragger');
-const scale = slider.clientWidth;
-let dragging = false;
+const container: Element = document.querySelector('.container');
+const dragger: Element = document.querySelector('.dragger');
+const scale: number = slider.clientWidth;
+let dragging: boolean = false;
 
 function detectMovement(event: PointerEvent) {
   if (dragging) {
     console.log('detecting movement', event.movementX);
-    const x = event.movementX;
-    let current = meter.clientWidth;
-    let newWidth = current + x;
+    const x: number = event.movementX;
+    let current: number = meter.clientWidth;
+    let newWidth: number = current + x;
     console.log('progress', newWidth / scale);
     tl.progress(newWidth / scale).pause();
   }
@@ -122,7 +122,7 @@ function stopDrag(event: PointerEvent) {
 }
 container.addEventListener('pointerup', stopDrag);
 
-let noClickSlider = false;
+let noClickSlider: boolean = false;
 dragger.addEventListener('pointerdown', function drag(event) {
   if (!dragging) {
     tl.pause();
