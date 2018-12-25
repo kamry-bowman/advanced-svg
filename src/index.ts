@@ -95,41 +95,52 @@ slowerButton.addEventListener('click', () => {
 });
 
 // slider logic
-
+const container = document.querySelector('.container');
 const dragger = document.querySelector('.dragger');
 const scale = slider.clientWidth;
 let dragging = false;
 
 function detectMovement(event: PointerEvent) {
-  console.log(event.movementX);
-  const x = event.movementX;
-  let current = meter.clientWidth;
-  console.log(current);
-  let newWidth = current + x;
-  tl.progress(newWidth / scale).pause();
+  if (dragging) {
+    console.log('detecting movement', event.movementX);
+    const x = event.movementX;
+    let current = meter.clientWidth;
+    let newWidth = current + x;
+    console.log('progress', newWidth / scale);
+    tl.progress(newWidth / scale).pause();
+  }
 }
+container.addEventListener('pointermove', detectMovement);
 
 function stopDrag(event: PointerEvent) {
-  console.log('stop drag');
-  dragging = false;
-  tl.play();
-  document.removeEventListener('pointerup', stopDrag);
-  document.removeEventListener('pointermove', detectMovement);
+  if (dragging) {
+    console.log('stop drag');
+    dragging = false;
+    tl.play();
+    (container as HTMLElement).style.setProperty('touch-action', 'auto');
+  }
 }
+container.addEventListener('pointerup', stopDrag);
 
+let noClickSlider = false;
 dragger.addEventListener('pointerdown', function drag(event) {
   if (!dragging) {
-    document.addEventListener('pointermove', detectMovement);
-    document.addEventListener('pointerup', stopDrag);
     tl.pause();
+    (container as HTMLElement).style.setProperty('touch-action', 'none');
     dragging = true;
+    noClickSlider = true;
     event.stopPropagation();
   }
 });
 
-slider.addEventListener('click', (event: PointerEvent) => {
-  console.log('click');
-  const target = event.offsetX / scale;
-  console.log(target);
-  tl.progress(target);
-});
+function sliderClick(event: PointerEvent) {
+  if (!noClickSlider) {
+    console.log('click');
+    const target = event.offsetX / scale;
+    console.log(target);
+    tl.progress(target);
+  } else {
+    noClickSlider = false;
+  }
+}
+slider.addEventListener('click', sliderClick);
