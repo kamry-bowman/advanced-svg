@@ -100,7 +100,7 @@ const dragger = document.querySelector('.dragger');
 const scale = slider.clientWidth;
 let dragging = false;
 
-function detectMovement(event: MouseEvent) {
+function detectMovement(event: PointerEvent) {
   console.log(event.movementX);
   const x = event.movementX;
   let current = meter.clientWidth;
@@ -109,25 +109,25 @@ function detectMovement(event: MouseEvent) {
   tl.progress(newWidth / scale).pause();
 }
 
-function stopDrag(event: MouseEvent) {
+function stopDrag(event: PointerEvent) {
   console.log('stop drag');
   dragging = false;
   tl.play();
-  document.removeEventListener('mouseup', stopDrag);
-  document.removeEventListener('mousemove', detectMovement);
+  document.removeEventListener('pointerup', stopDrag);
+  document.removeEventListener('pointermove', detectMovement);
 }
 
-dragger.addEventListener('mousedown', function drag(event) {
+dragger.addEventListener('pointerdown', function drag(event) {
   if (!dragging) {
-    document.addEventListener('mousemove', detectMovement);
-    document.addEventListener('mouseup', stopDrag);
+    document.addEventListener('pointermove', detectMovement);
+    document.addEventListener('pointerup', stopDrag);
     tl.pause();
     dragging = true;
     event.stopPropagation();
   }
 });
 
-slider.addEventListener('click', (event: MouseEvent) => {
+slider.addEventListener('click', (event: PointerEvent) => {
   console.log('click');
   const target = event.offsetX / scale;
   console.log(target);
